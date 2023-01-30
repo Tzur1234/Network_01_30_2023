@@ -1,0 +1,83 @@
+{% extends 'network/layout.html' %}
+{% load static %}
+
+{% block title %}Profile{% endblock %}
+
+{% block body %}
+<a href="{% static 'network/text.html' %}">Link</a>
+<div class="container">
+    <div class="main-body">
+        <div class="row gutters-sm">
+            <div class="col-md-4 mb-3">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex flex-column align-items-center text-center">
+                            <img src="{{img_url}}" alt="Admin" class="rounded-circle" width="150">
+                            <div class="mt-3">
+                                <h4>Username {{username}}</h4>
+                                <p class="text-secondary mb-1">Followers {{followers}}</p>
+                                <p class="text-muted font-size-sm">Following {{following}}</p>
+                                {% if follow_button == None %}
+                                {% elif follow_button %}
+                                <button data-user_id="{{user_id}}" class="btn btn-primary follow">Follow</button>
+                                {% else %}
+                                <button data-user_id="{{user_id}}" class="btn btn-secondary unfollow">Unfollow</button>
+                                {% endif%}
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <hr>
+
+    
+    <!-- Pagination -->
+    <nav aria-label="Page navigation example">
+        <ul class="pagination">
+            {% if posts.has_previous %}
+            <li class="page-item"><a class="page-link previous" href="/profile/{{user_id}}/{{posts.previous_page_number}}">Previous</a></li>
+            {% endif %}
+            <li class="page-item"><a class="page-link" href="#"> {{posts.number}} Of {{posts.paginator.num_pages}} </a></li>
+            {% if posts.has_next %}
+                <li class="page-item"><a class="page-link next" href="/profile/{{user_id}}/{{posts.next_page_number}}">Next</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+    <hr>
+
+    {% for post in posts %}
+
+    <div class="card text-left my-5">
+        <div class="card-header">{{post.date}}Jan 26 2023, 08:36 PM</div><br>
+        <div class="card-body"><a href="profile/4">
+                <h5 class="card-title">{{post.username}}</h5>
+            </a>
+            <p class="card-text" data-id="{{post.post_id}}">{{post.content}}</p>
+            <p class="card-text" data-id="{{post.post_id}}"><small class="text-muted like-count">({{post.likes}}
+                    Likes)</small></p>
+
+            {% if post.user_gave_like %}
+            <a class="btn btn-secondary unlike" data-id="{{post.post_id}}">Unlike</a>
+            {% else %}
+            <a class="btn btn-primary like" data-id="{{post.post_id}}">Like</a>
+            {% endif %}
+            {% if post.postowner %}
+            <button class="btn btn-warning m-5" id="editmypost" data-id="{{post.post_id}}">Edit</button>
+            {% endif %}
+
+
+        </div>
+    </div>
+    {% endfor %}
+    {% endblock %}
+
+
+
+    {% block script %}
+    <script src="{% static 'network/profile.js' %}"></script>
+    {% endblock %}

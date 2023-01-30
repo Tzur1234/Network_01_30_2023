@@ -1,0 +1,64 @@
+{% extends "network/layout.html" %}
+{% load static %}
+
+
+{% block script %}
+<script src="{% static 'network/index.js' %}"></script>
+{% endblock %}
+
+{% block body %}
+
+<div class="container text-center">
+
+    <!-- Add Post Form -->
+
+    {% if user.is_authenticated %}
+    <div class="row">
+        <div class="card text-center  w-75">
+            <div class="card-header">
+                <h5>Add Post</h5>
+            </div>
+            <div class="card-body">
+                <form>
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="content"></label>
+                        <textarea name="content" id="content" cols="60" rows="10"></textarea>          
+                        <input type="submit" class="btn btn-primary submit-post">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <br>
+    <br>
+    {% endif %}
+
+
+    <div class="row m-5 text-center">
+        <h1 class="text-center">All Posts</h1>
+    </div>
+
+    <!-- Pagination -->
+    <hr>
+    <nav aria-label="Page navigation example">
+        <ul class="pagination">
+          <li class="page-item"><a class="page-link previous" href="#">Previous</a></li>
+          <li class="page-item"><a class="page-link" href="#"></a></li>
+          <li class="page-item"><a class="page-link next" href="#">Next</a></li>
+        </ul>
+      </nav>
+      <hr>
+
+    <!-- show all post -->
+    <div class="posts-view">
+    </div>
+
+
+</div>
+
+</div>
+
+{% endblock %}
+
+
